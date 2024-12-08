@@ -1,6 +1,3 @@
 {
-  "files": [
-    "main", 
-    "test.js"
-    ]
+  "files": ["main", "test.js"]
 }
