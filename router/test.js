@@ -1,1 +1,1 @@
-
+console.log("merkelova started")
