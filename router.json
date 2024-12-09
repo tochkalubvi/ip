@@ -1,9 +1,3 @@
 {
-  "files": [
-    "variables.js",
-    "interface.js",
-    "time.js", 
-    "type.js", 
-    "tables.js"
-    ]
+  "files": ["variables.js", "interface.js", "time.js", "type.js", "tables.js"]
 }
