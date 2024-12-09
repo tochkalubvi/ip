@@ -1,13 +1,6 @@
 class AnalIs {
-    constructor() {
-        this.CLASS_NAME = "AnalIs"
-    }
 
     async run(args) {
-
-        let FU_NAME = "run"
-        log("async function", `${FU_NAME}(${args})`, [this.CLASS_NAME, FU_NAME])
-        log("args", args, [this.CLASS_NAME, FU_NAME])
 
         this.ready = true
 
@@ -28,14 +21,6 @@ class AnalIs {
         this.ts  =  {}
 
         this.refuse_count = false
-
-        log("all_variables", {
-            "this.traffic": this.traffic,
-            "this.temp": this.temp,
-            "this.vp": this.vp,
-            "this.def": this.def,
-            "arguments": args
-        }, [this.CLASS_NAME, FU_NAME])
 
         Object.keys(this.temp).forEach(element => {this.ts["t" + element.replace("_", "")] = this.temp[element]});
         log("this.temp -> obj.keys() -> this.ts", [this.temp, this.ts], [this.CLASS_NAME, FU_NAME])
@@ -282,9 +267,6 @@ class AnalIs {
     }
 
     Scan(temp) {
-
-        let FU_NAME = "Scan"
-        log("async function", `${FU_NAME}(${temp})`, [this.CLASS_NAME, FU_NAME])
 
         this.default_group(temp[0])
         this.enter_group(temp[1], temp[2])
