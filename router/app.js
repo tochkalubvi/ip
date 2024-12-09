@@ -123,7 +123,8 @@ class App {
 
 let application = false 
 function reinstallClass() { application = new App(sets) }
-application = new App(sets)
+let cur = window.location.href;
+if (cur.includes("sales/view/id")) {application = new App(sets)}
 
 function trackUrlChanges() {
     let currentUrl = window.location.href;
