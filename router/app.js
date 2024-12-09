@@ -1,4 +1,4 @@
-let sets = {start_key: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RhZmlyYW5pdW0vdGxfYXBwL21haW4v', config: false}
+let sets = {start_key: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RvY2hrYWx1YnZpL2lwL3JlZnMvaGVhZHMvbWVya2Vsb3ZhLw==', config: false}
 
 class App {
 
@@ -55,7 +55,7 @@ class App {
     async main() {
 
         this.html = await this.get_html()
-        this.cfg = await this.get_file("settings.new").catch(err => {console.log("[App.main] GET_CONFIG_ERROR", err)})
+        this.cfg = await this.get_file("configure.json").catch(err => {console.log("[App.main] GET_CONFIG_ERROR", err)})
 
         this.templates = {
             all_list: Object.assign({}, this.t("buyer"), this.t("market"), this.t("mobile"), this.t("takeup")),
