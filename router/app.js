@@ -3,7 +3,6 @@ let sets = {start_key: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RvY2hrYWx1
 class App {
 
     constructor(args) {
-        this.CLASS_NAME = "App"
         this.config = args["config"] 
         this.html = document.body
         this.start_key = args["start_key"]
