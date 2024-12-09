@@ -1,7 +1,6 @@
 class CopyConnect {
 
     constructor() {
-        this.CLASS_NAME = "CopyConnect"
         this.location = window.location.href
     }
 
@@ -9,7 +8,6 @@ class CopyConnect {
 
         let FU_NAME = "run"
 
-        log("args: ", args, [this.CLASS_NAME, FU_NAME])
 
         this.traffic  = args["traffic"]
         this.comment  = args["comment"]
@@ -28,14 +26,11 @@ class CopyConnect {
         this.temp = args["templates"]
         this.cat = this.temp["icons"]
 
-        log("this.temp: ", this.temp, [this.CLASS_NAME, FU_NAME])
-
         this.buttons       = this.interface
         this.copyButton    = this.buttons[0]
         this.checksButtons = this.buttons[1]
         this.cat_button    = this.buttons[2]
 
-        log("this.buttons: ", this.buttons, [this.CLASS_NAME, FU_NAME])
 
         this.deny = args["deny"]
         this.key_buffer     = []
@@ -45,8 +40,6 @@ class CopyConnect {
         this.vp   = this.analis.vp
         let bill_url = this.analis.type_of_page_object.vars["return_link"]
 
-        log("this.type: ", this.type, [this.CLASS_NAME, FU_NAME])
-        log("this.vp: ", this.vp, [this.CLASS_NAME, FU_NAME])
 
         this.connect_click()
         let need = this.temp["need"]
