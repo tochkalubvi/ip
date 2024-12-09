@@ -23,7 +23,6 @@ class AnalIs {
         this.refuse_count = false
 
         Object.keys(this.temp).forEach(element => {this.ts["t" + element.replace("_", "")] = this.temp[element]});
-        log("this.temp -> obj.keys() -> this.ts", [this.temp, this.ts], [this.CLASS_NAME, FU_NAME])
 
         this.type_of_page_object = new Type(this.html, this.cfg, this.temp, this.all_tables_sorted[0]["return"])
         this.type_of_page = this.type_of_page_object.type
@@ -38,12 +37,8 @@ class AnalIs {
         }
 
         this.copy_massive = [this.return_type, this.vars]
-
-        log("this.type_of_page: ", this.type_of_page, [this.CLASS_NAME, FU_NAME]), 
-        log("this.temp: ", this.temp, [this.CLASS_NAME, FU_NAME])
         this.current_temp = this.temp[this.type_of_page[0]][0]
 
-        log("this.current_temp: ", this.current_temp, [this.CLASS_NAME, FU_NAME])
         for (let i = 1; i < this.current_temp.length; i++) {
             let e = this.current_temp[i]
             if (e.length == 1 & e[0] == false) {
@@ -52,7 +47,6 @@ class AnalIs {
         }
 
         this.uv_turn = Object.keys(this.temps["uv_off"]).includes(this.traffic) 
-        log("this.uv_turn: ", this.uv_turn, [this.CLASS_NAME, FU_NAME])
 
         this.Scan(this.current_temp) 
         return [this.type_of_page, this.vp]
@@ -68,9 +62,6 @@ class AnalIs {
     } 
 
     default_group(temp) {
-        
-        let FU_NAME = "default_group"
-        log("async function", `${FU_NAME}(${temp})`, [this.CLASS_NAME, FU_NAME])
 
         let day  = this.type_of_page[1][2]
         log("day: ", day, [this.CLASS_NAME, FU_NAME])
@@ -176,9 +167,6 @@ class AnalIs {
 
     money_group(temp) {    
         
-        let FU_NAME = "money_group"
-        log("async function", `${FU_NAME}(${temp})`, [this.CLASS_NAME, FU_NAME])
-
         function cd(n) {
             let num = n.split(".")
             if (num[1] == "00") {return num[0]} 
