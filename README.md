@@ -37,5 +37,5 @@
 
 
 ## Поддержка
-[![telegram](https://img.shields.io/badge/telegram-1DA1F2?style=for-the-badge&logo=telegram&logoColor=white)](t.me/al_picaso)
+[![telegram](https://img.shields.io/badge/telegram-1DA1F2?style=for-the-badge&logo=telegram&logoColor=white)](http://t.me/al_picaso)
 
