@@ -84,10 +84,6 @@ class AnalIs {
     }
 
     standart(temp, otemp) {
-
-        let FU_NAME = "standart"
-        log("async function", `${FU_NAME}(${temp, otemp})`, [this.CLASS_NAME, FU_NAME])
-
         if (!this.uv_turn) {this.vp[this.all_list[this.traffic]]                    =  temp[1]} // ув (5 - 16)
         if (Object.keys(this.all_tables_sorted[2]).includes("636")) {this.vp[19]    =  temp[2]} // 636 проверка наличия
         if (this.uv_turn) {this.vp[21]                                              = otemp[0]} // учет заказов
@@ -95,19 +91,12 @@ class AnalIs {
     }
 
     enter_group(temp, otemp) {
-
-        let FU_NAME = "enter_group"
-        log("async function", `${FU_NAME}(${temp, otemp})`, [this.CLASS_NAME, FU_NAME])
-
         this.vp[3] = temp[0]  // вход 
         this.vp[4] = temp[3]  // не клиент 
         this.standart(temp, otemp)
     }
 
-    items_group(temp) { // 3
-        
-        let FU_NAME = "items_group"
-        log("async function", `${FU_NAME}(${temp})`, [this.CLASS_NAME, FU_NAME])
+    items_group(temp) {
 
         let items = this.all_tables_sorted[2]
 
