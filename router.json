@@ -3,11 +3,7 @@
     "variables.js",
     "interface.js",
     "time.js", 
-    "type.js",
-    "copy.js", 
-    "tables.js", 
-    "anal.js", 
-    "no_client.js",
-    "app.js"
+    "type.js", 
+    "tables.js"
     ]
 }
