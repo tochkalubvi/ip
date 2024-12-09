@@ -64,7 +64,6 @@ class AnalIs {
     default_group(temp) {
 
         let day  = this.type_of_page[1][2]
-        log("day: ", day, [this.CLASS_NAME, FU_NAME])
 
         for (let i=0; i<temp.length; i++) {if (temp[i] == false) {temp[i] = Array(this.def[2][i]).fill(-1)}}
 
