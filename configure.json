@@ -8,13 +8,17 @@
     "48491", "48495", "26279", "26280", "26795", "47177", "48168", "48327", "48570", "995", "996", "997", "26713", "26284", 
     "26348", "26694", "26702", "26711", "26743", "26745"
   ],
+  "passive_template": {
+	"six": 19, "order": 21, "enter": 3, "nc": 4, "comments": 26, "articles": 29, "buys": 27, "items_count": 28
+  },
   "selectors": {
     "tables": {
         "main": "table#detail-view", 
         "mone": "table#price-detail-view", 
         "sale": "#yw2", 
         "item": "#receipt-items table.items.table tbody tr",
-	"coun": "div#receipt-items div.summary"
+	"coun": "div#receipt-items div.summary",
+	"money": [30, 31, 32]
     }
   },
 "enames": {
