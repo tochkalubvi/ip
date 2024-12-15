@@ -1,3 +1,9 @@
+function range(start, end) {
+    var result = []; 
+    for (var i = start; i <= end; i++) {result.push(i);}
+    return result;
+}
+
 class AnalIs {
 
     async run(args) {
@@ -11,6 +17,7 @@ class AnalIs {
         
         this.temp = this.cfg["type_settings"] 
         this.vp   =  Array(this.cfg["main"]["size"]).fill(-1)
+        this.pt   =  this.cfg["passive_template"]
         this.def  =  this.cfg["default"]
         
         this.temps    = args["templates"]
@@ -78,21 +85,26 @@ class AnalIs {
         let seller = this.all_tables_sorted[0]["seller"].trim().split(" ").filter((e) => !e.includes("-")).join(" ")
         let seller_hash = btoa(unescape(encodeURIComponent(seller)))
 
+        
+
         if (Object.keys((this.cfg["enames"])).includes(seller_hash)) seller = decodeURIComponent(escape(atob(this.cfg["enames"][seller_hash])))
         if (this.def[0]["name"]) {this.vp[this.def[1]["name"]] = seller} // имя продавца
+
+        console.log(this.def[1]["name"], seller)
+        console.log(this.vp)
 
     }
 
     standart(temp, otemp) {
-        if (!this.uv_turn) {this.vp[this.all_list[this.traffic]]                    =  temp[1]} // ув (5 - 16)
-        if (Object.keys(this.all_tables_sorted[2]).includes("636")) {this.vp[19]    =  temp[2]} // 636 проверка наличия
-        if (this.uv_turn) {this.vp[21]                                              = otemp[0]} // учет заказов
-        if (this.uv_turn) {this.vp[this.all_list[this.traffic]]                     = otemp[0]} // заказы 22-23 самовывоз приложение
+        if (!this.uv_turn) {this.vp[this.all_list[this.traffic]]                             =  temp[1]} // ув (5 - 16)
+        if (Object.keys(this.all_tables_sorted[2]).includes("636")) {this.vp[this.pt["six"]] =  temp[2]} // 636 проверка наличия
+        if (this.uv_turn) {this.vp[this.pt["order"]]                                         = otemp[0]} // учет заказов
+        if (this.uv_turn) {this.vp[this.all_list[this.traffic]]                              = otemp[0]} // заказы 22-23 самовывоз приложение
     }
 
     enter_group(temp, otemp) {
-        this.vp[3] = temp[0]  // вход 
-        this.vp[4] = temp[3]  // не клиент 
+        this.vp[this.pt["enter"]] = temp[0]  // вход 
+        this.vp[this.pt["nc"]] = temp[3]  // не клиент 
         this.standart(temp, otemp)
     }
 
@@ -129,24 +141,24 @@ class AnalIs {
             if ((temp[4] == 1) & !(["Не задан", ""].includes(comment_245))) {
                 desc.push(comment_245.replace(":", " "))
             }
-            
-            this.vp[26]  =  desc.join(",  ")
-            this.vp[29]  =  arts.join(";  ") 
+
+            this.vp[this.pt["comments"]]  =  desc.join(",  ")
+            this.vp[this.pt["articles"]]  =  arts.join(";  ") 
 
             this.refuse_count = true
 
-            if (temp[2] == -1) {this.vp[29] = temp[2]}
-            if (temp[0] != 1) { this.vp[27] = temp[0]; this.vp[28] = temp[0] } 
+            if (temp[2] == -1) {this.vp[this.pt["articles"]] = temp[2]}
+            if (temp[0] != 1) { this.vp[this.pt["buys"]] = temp[0]; this.vp[this.pt["items_count"]] = temp[0] } 
 
             else { 
 
-                if (count > 0) { this.vp[27] = 1; this.vp[28] = count; this.refuse_count = true;
+                if (count > 0) { this.vp[this.pt["buys"]] = 1; this.vp[this.pt["items_count"]] = count; this.refuse_count = true;
                 } else { 
 
                     this.refuse_count = false; 
 
-                    this.vp[27] = 0; this.vp[28] = 0 
-                    this.vp[this.all_list[this.traffic]] = 0; this.vp[3] = 0;
+                    this.vp[this.pt["buys"]] = 0; this.vp[this.pt["items_count"]] = 0 
+                    this.vp[this.all_list[this.traffic]] = 0; this.vp[this.pt["enter"]] = 0;
 
                 }
             }
@@ -190,53 +202,54 @@ class AnalIs {
         
         let cash_nocash = cnc[1]
         let cash_nocash_sbp = cnc[0]
-
-        this.money_object = ((temp.length == 1) & (temp[0] == -1)) ? { 37: ["-1", "-1"], 38: ["-1", "-1"] } : false
-
+       
+        
+        let mi = this.pt["money"][0]
+        let mmp = this.pt["money"][1]
+        let t_m = {}
+        t_m[mmp[0]] = ['-1', '-1']
+        t_m[mmp[1]] = ['-1', '-1']
+        this.money_object = ((temp.length == 1) & (temp[0] == -1)) ?  t_m: false
+        console.log(temp, this.money_object)
         // обычная оплата 
         if (temp[0] === 1 & !this.money_object) {
-            this.vp[30] = cash_nocash_sbp[0][0]
-            this.vp[31] = cash_nocash_sbp[1][0]
-            this.vp[32] = cash_nocash_sbp[2][0]
-            this.money_object = {
-                30: cnc[0][0],
-                31: cnc[0][1],
-                32: cnc[0][2]
-            }
+
+            this.money_object = {}
+            range(0, 2).forEach(i => {
+                this.vp[mi[i]] = cash_nocash_sbp[0][i]; 
+                this.money_object[mi[i]] = cnc[0][i]}
+            );
 
         // оплата заказа
         } else if (temp[1] === 1) {
-            this.vp[33] = cash_nocash[0][0]
-            this.vp[34] = cash_nocash[1][0]
-            this.money_object = {
-                33: cnc[1][0],
-                34: cnc[1][1]
-            }
+
+            console.log(this.money_object)
+
+            range(0, 1).forEach(i => {
+                this.vp[mi[i]]    = cash_nocash[0][i]; 
+                this.money_object[mi[i]]  = cnc[0][i];
+            });
 
         // возврат заказа
         } else if (this.return_type != false & (temp[2] === 1)) {
             if (this.return_type.type[0] != false) {
                 if (this.return_type.type[0] == "mobile") {
-                    this.vp[33] = cash_nocash[0][0]
-                    this.vp[34] = cash_nocash[1][0]
-                    this.money_object = {
-                        33: cnc[1][0],
-                        34: cnc[1][1]
-                    }
+                    range(0, 1).forEach(i => {
+                        this.vp[mi[i]]    = cash_nocash[0][i]; 
+                        this.money_object[mi[i]]  = cnc[0][i];
+                    });
                 } else if (this.return_type.type[0] == "buyer") {
-                    this.vp[37] = cash_nocash[0][0]
-                    this.vp[38] = cash_nocash[1][0]
-                    this.money_object = {
-                        37: cnc[1][0],
-                        38: cnc[1][1]
-                    }
+                    
+                    range(0, 1).forEach(i => {
+                        this.vp[mmp[i]]    = cash_nocash[0][i]; 
+                        this.money_object[mmp[i]]  = cnc[0][i];
+                    });
+
                 } else {
-                    this.vp[37] = cash_nocash[0][0]
-                    this.vp[38] = cash_nocash[1][0]
-                    this.money_object = {
-                        37: cnc[1][0],
-                        38: cnc[1][1]
-                    }
+                    range(0, 1).forEach(i => {
+                        this.vp[mmp[i]]    = cash_nocash[0][i]; 
+                        this.money_object[mmp[i]]  = cnc[0][i];
+                    });
                 }      
             }
         } 
