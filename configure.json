@@ -9,7 +9,7 @@
     "26348", "26694", "26702", "26711", "26743", "26745"
   ],
   "passive_template": {
-	"six": 19, "order": 21, "enter": 3, "nc": 4, "comments": 26, "articles": 29, "buys": 27, "items_count": 28, "money": [30, 31, 32]
+	"six": 19, "order": 21, "enter": 3, "nc": 4, "comments": 26, "articles": 29, "buys": 27, "items_count": 28, "money": [[30, 31, 32], [38,39]]
   },
   "selectors": {
     "tables": {
