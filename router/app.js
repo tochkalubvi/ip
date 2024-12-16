@@ -1,10 +1,10 @@
-let sets = {start_key: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RvY2hrYWx1YnZpL2lwL3JlZnMvaGVhZHMvbWVya2Vsb3ZhLw==', config: false}
+let sets = {start_key: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RvY2hrYWx1YnZpL2lwL3JlZnMvaGVhZHMvcGFmbnV0ZXZhLw==', config: false}
 
 class App {
 
     constructor(args) {
 
-        console.log("ИП МЕРКЕЛОВА")
+        console.log("ИП ПАФНУТЬЕВА")
         
         this.config = args["config"] 
         this.html = document.body
