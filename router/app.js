@@ -1,267 +1,177 @@
-function range(start, end) {
-    var result = []; 
-    for (var i = start; i <= end; i++) {result.push(i);}
-    return result;
-}
+let sets = {start_key: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3RvY2hrYWx1YnZpL2lwL3JlZnMvaGVhZHMvbWVya2Vsb3ZhLw==', config: false}
 
-class AnalIs {
+class App {
 
-    async run(args) {
+    constructor(args) {
 
-        this.ready = true
-
-        this.html              = args["html"]
-        this.cfg               = args["config"]
-        this.all_tables_sorted = args["tables"]
-        this.traffic           = this.all_tables_sorted[0]["traffic"]
+        console.log("ИП МЕРКЕЛОВА")
         
-        this.temp = this.cfg["type_settings"] 
-        this.vp   =  Array(this.cfg["main"]["size"]).fill(-1)
-        this.pt   =  this.cfg["passive_template"]
-        this.def  =  this.cfg["default"]
-        
-        this.temps    = args["templates"]
-        this.all_list = args["templates"]["all_list"]
-        this.deny     = args["deny"]
-
-        this.tm  =  args["datetime"]
-        this.ts  =  {}
-
-        this.refuse_count = false
-
-        Object.keys(this.temp).forEach(element => {this.ts["t" + element.replace("_", "")] = this.temp[element]});
-
-        this.type_of_page_object = new Type(this.html, this.cfg, this.temp, this.all_tables_sorted[0]["return"])
-        this.type_of_page = this.type_of_page_object.type
-        this.return_type = false
-
-        if (this.type_of_page[0] == "return") {
-
-            let page = await this.get_return_bill()
-            this.return_type = new Type(page, this.cfg, this.temp, true)
-
-            this.vars = this.return_type.vars
-        }
-
-        this.copy_massive = [this.return_type, this.vars]
-        this.current_temp = this.temp[this.type_of_page[0]][0]
-
-        for (let i = 1; i < this.current_temp.length; i++) {
-            let e = this.current_temp[i]
-            if (e.length == 1 & e[0] == false) {
-                this.current_temp[i] = Array(this.def[2][i]).fill(-1)
-            }
-        }
-
-        this.uv_turn = Object.keys(this.temps["uv_off"]).includes(this.traffic) 
-
-        this.Scan(this.current_temp) 
-        return [this.type_of_page, this.vp]
+        this.config = args["config"] 
+        this.html = document.body
+        this.start_key = args["start_key"]
+        this.main()
     }
 
-    async get_return_bill(url) {
-        let bill = this.html.querySelector("#detail-view tr:nth-child(17) a")
-        let bill_url = bill.getAttribute("href")
-        let page = await get_page(bill_url)
-        let html = document.createElement("div")
-        html.innerHTML = page
-        return html
-    } 
+    async get_file(salt, type=true) {
 
-    default_group(temp) {
-
-        let day  = this.type_of_page[1][2]
-
-        for (let i=0; i<temp.length; i++) {if (temp[i] == false) {temp[i] = Array(this.def[2][i]).fill(-1)}}
-
-        if ((temp.length == 1) & (temp[0] == "default"))  {temp = Array(this.def[2][0]).fill(true)}   
-        if (temp[0] & !day & this.tm[0]) {this.vp[this.def[1]["shift"]]="д"} 
-        else {this.vp[this.def[1]["shift"]]="н"}
-        if (temp[0] & day) {this.vp[this.def[1]["shift"]]="д"}
-
-        if (this.def[0]["date"]) {this.vp[this.def[1]["date"]] = this.tm[1]} // дата   
-        if (this.def[0]["time"]) {this.vp[this.def[1]["time"]] = this.tm[2]} // время 
-
-        let seller = this.all_tables_sorted[0]["seller"].trim().split(" ").filter((e) => !e.includes("-")).join(" ")
-        let seller_hash = btoa(unescape(encodeURIComponent(seller)))
-
-        
-
-        if (Object.keys((this.cfg["enames"])).includes(seller_hash)) seller = decodeURIComponent(escape(atob(this.cfg["enames"][seller_hash])))
-        if (this.def[0]["name"]) {this.vp[this.def[1]["name"]] = seller} // имя продавца
-
-        console.log(this.def[1]["name"], seller)
-        console.log(this.vp)
-
+        let response  = await fetch(window.atob(this.start_key) + salt);
+        if (response.ok) {
+            if (type) {return await response.json()} 
+            else {return await response.text()}
+        } else {console.debug("Ошибка HTTP: " + response.status)}
     }
 
-    standart(temp, otemp) {
-        if (!this.uv_turn) {this.vp[this.all_list[this.traffic]]                             =  temp[1]} // ув (5 - 16)
-        if (Object.keys(this.all_tables_sorted[2]).includes("636")) {this.vp[this.pt["six"]] =  temp[2]} // 636 проверка наличия
-        if (this.uv_turn) {this.vp[this.pt["order"]]                                         = otemp[0]} // учет заказов
-        if (this.uv_turn) {this.vp[this.all_list[this.traffic]]                              = otemp[0]} // заказы 22-23 самовывоз приложение
-    }
+    t(type_of_page) {return this.cfg["type_settings"][type_of_page][2]}
 
-    enter_group(temp, otemp) {
-        this.vp[this.pt["enter"]] = temp[0]  // вход 
-        this.vp[this.pt["nc"]] = temp[3]  // не клиент 
-        this.standart(temp, otemp)
-    }
+    async get_html() {
 
-    items_group(temp) {
+        let html = document.body
 
-        let items = this.all_tables_sorted[2]
-
-        if (Object.keys(items).length > 0) {
-
-            let desc = []
-            let arts = []
-            let count = 0
-
-            items.forEach(e => {
-                if (temp[3] == 1) {
-                    if (!(this.cfg["stop"].includes(e.art)) || (e.art == 0 & e.name == "Клиентский заказ")) {
-                        desc.push(e.name); 
-                        if (e.art != 0) {arts.push(e.art);}; 
-                        if (e.is_good || e.name == "Клиентский заказ") {count+=Number(e.count);}
+        async function waitForIframeAndElement(selector) {
+            return new Promise((resolve, reject) => {
+                const checkIframe = setInterval(() => {
+                    const iframe = document.querySelector('main iframe');
+                    if (iframe) {
+                        const checkElement = setInterval(() => {
+                            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                            const element = iframeDocument.querySelector(selector);
+                            if (element) {
+                                clearInterval(checkElement);
+                                clearInterval(checkIframe);
+                                resolve(element);
+                            }
+                        }, 100);
                     }
-                } else if (temp[3] == -1) {
-                    desc.push(e.name); arts.push(e.art); if (e.is_good || e.name == "Клиентский заказ") {count+=Number(e.count)};
-                }
-            }); 
-            
-            if (temp[1] != 1) {desc = []}
-
-            let comment_245 = this.all_tables_sorted[0]["comment"].replace(/[\r\n\t]+/g, " ")
-            let c = document.createElement("div")
-
-            c.innerHTML += comment_245
-            comment_245 = c.innerText
-
-            if ((temp[4] == 1) & !(["Не задан", ""].includes(comment_245))) {
-                desc.push(comment_245.replace(":", " "))
-            }
-
-            this.vp[this.pt["comments"]]  =  desc.join(",  ")
-            this.vp[this.pt["articles"]]  =  arts.join(";  ") 
-
-            this.refuse_count = true
-
-            if (temp[2] == -1) {this.vp[this.pt["articles"]] = temp[2]}
-            if (temp[0] != 1) { this.vp[this.pt["buys"]] = temp[0]; this.vp[this.pt["items_count"]] = temp[0] } 
-
-            else { 
-
-                if (count > 0) { this.vp[this.pt["buys"]] = 1; this.vp[this.pt["items_count"]] = count; this.refuse_count = true;
-                } else { 
-
-                    this.refuse_count = false; 
-
-                    this.vp[this.pt["buys"]] = 0; this.vp[this.pt["items_count"]] = 0 
-                    this.vp[this.all_list[this.traffic]] = 0; this.vp[this.pt["enter"]] = 0;
-
-                }
-            }
-        }
-    }
-
-    money_group(temp) {    
-        
-        function cd(n) {
-            let num = n.split(".")
-            if (num[1] == "00") {return num[0]} 
-            else { if (num[1][1] == "0") {num[1] = num[1][0]}; return num.join("."); }
-        }
-
-        let m = [Number(cd((this.all_tables_sorted[1]["cash"]))), 
-                 Number(cd((this.all_tables_sorted[1]["no_cash"]))), 
-                 Number(cd((this.all_tables_sorted[1]["sbp"])))]
-
-        let cnc = [[m[0], m[1], m[2]], [m[0], m[1] + m[2]]]
-
-        cnc.forEach(e => {e.forEach(elem => {
-            if (elem == 0) {elem = -1}
-        })});
-
-        function isInteger(num) {
-            return (num ^ 0) === num;
-        }
-
-        for (let i = 0; i < cnc.length; i++) {
-            for (let j = 0; j < cnc[i].length; j++) {
-                if (cnc[i][j] == 0 || !this.refuse_count) {cnc[i][j] = ["-1", "-1"]} 
-                else {
-                    if (!isInteger(cnc[i][j])) {
-                        cnc[i][j] = [cnc[i][j].toString().trim().split(".").join(","), Math.round(cnc[i][j]).toString().trim()]
-                    } else {
-                        cnc[i][j] = [cnc[i][j].toString().trim(), cnc[i][j].toString().trim()]
-                    }
-                }
-            }
-        }
-        
-        let cash_nocash = cnc[1]
-        let cash_nocash_sbp = cnc[0]
-       
-        
-        let mi = this.pt["money"][0]
-        let mmp = this.pt["money"][1]
-        let t_m = {}
-        t_m[mmp[0]] = ['-1', '-1']
-        t_m[mmp[1]] = ['-1', '-1']
-        this.money_object = ((temp.length == 1) & (temp[0] == -1)) ?  t_m: false
-        console.log(temp, this.money_object)
-        // обычная оплата 
-        if (temp[0] === 1 & !this.money_object) {
-
-            this.money_object = {}
-            range(0, 2).forEach(i => {
-                this.vp[mi[i]] = cash_nocash_sbp[0][i]; 
-                this.money_object[mi[i]] = cnc[0][i]}
-            );
-
-        // оплата заказа
-        } else if (temp[1] === 1) {
-
-            console.log(this.money_object)
-
-            range(0, 1).forEach(i => {
-                this.vp[mi[i]]    = cash_nocash[0][i]; 
-                this.money_object[mi[i]]  = cnc[0][i];
+                }, 100);
             });
+        }
+    
+        if (window.location.href.includes("cpanel")) {
+            html = await waitForIframeAndElement("#yw0")
+        }
 
-        // возврат заказа
-        } else if (this.return_type != false & (temp[2] === 1)) {
-            if (this.return_type.type[0] != false) {
-                if (this.return_type.type[0] == "mobile") {
-                    range(0, 1).forEach(i => {
-                        this.vp[mi[i]]    = cash_nocash[0][i]; 
-                        this.money_object[mi[i]]  = cnc[0][i];
-                    });
-                } else if (this.return_type.type[0] == "buyer") {
-                    
-                    range(0, 1).forEach(i => {
-                        this.vp[mmp[i]]    = cash_nocash[0][i]; 
-                        this.money_object[mmp[i]]  = cnc[0][i];
-                    });
-
-                } else {
-                    range(0, 1).forEach(i => {
-                        this.vp[mmp[i]]    = cash_nocash[0][i]; 
-                        this.money_object[mmp[i]]  = cnc[0][i];
-                    });
-                }      
-            }
-        } 
+        return html
     }
+    
 
-    Scan(temp) {
+    async main() {
 
-        this.default_group(temp[0])
-        this.enter_group(temp[1], temp[2])
-        this.items_group(temp[3])
-        this.money_group(temp[4])
-        return this.vp
+        this.html = await this.get_html()
+        this.cfg = await this.get_file("configure.json").catch(err => {console.log("[App.main] GET_CONFIG_ERROR", err)})
 
-    } 
+        this.templates = {
+            all_list: Object.assign({}, this.t("buyer"), this.t("market"), this.t("mobile"), this.t("takeup")),
+            uv_off: Object.assign({}, this.t("market"), this.t("mobile"), this.t("takeup")),
+            need: {traffic: ["open", "return"], comment: ["market", "mobile", "takeup", "return", "no_item"], reasons: ["no_item"]},
+            icons: [["ฅ^•⩊•^ฅ", "⎛⎝^>⩊<^⎠⎞"], "≽/ᐠ - ˕ -マ≼"] }
+        
+        this.deny = ["Не задан", ""]
+
+        this.interface = new Interface()
+        this.buttons = await this.interface.run(this.html)
+
+
+        this.tables = new Tables(this.cfg, this.html)
+        this.tables = await this.tables.get_all()
+
+        this.all_tables_sorted = [this.tables[0], this.tables[1], this.tables[2]]
+        let nc = new no_client({"config": this.cfg, "table": this.all_tables_sorted})
+        await nc.connect(this.buttons[3])
+
+        console.log(this.all_tables_sorted)
+
+        this.traffic  = this.all_tables_sorted[0]["traffic"]
+        this.comment  = this.all_tables_sorted[0]["comment"]
+        this.reasons  = this.all_tables_sorted[0]["reason"]
+
+        this.datetime = new VpTime()
+        this.datetime = await this.datetime.run(this.all_tables_sorted[0]["datetime"].split(", "))
+
+        this.analysis     = new AnalIs()
+        this.analis       = await this.analysis.run({
+            tables:     this.all_tables_sorted, 
+            all_list:   this.templates["all_list"],
+            config:     this.cfg,
+            html:       this.html,
+            interface:  this.interface,
+            templates:  this.templates,
+            datetime:   this.datetime,
+            deny:       this.deny
+        })
+
+
+        this.uv_turn      = this.analysis.uv_turn 
+        this.type_of_page = this.analis[0]
+
+
+        this.copy_class = new CopyConnect()
+        await this.copy_class.run({
+
+            html:              this.html,
+            type_of_page:      this.type_of_page,
+            interface:         this.buttons,
+            all_tables_sorted: this.all_tables_sorted[0]["table_sorted"],
+
+            traffic:           this.traffic,
+            comment:           this.comment,
+            reasons:           this.reasons,
+
+            analis:            this.analysis,
+            deny:              this.deny,
+            templates:         this.templates
+
+        })
+    }
 }
+
+let application = false 
+function reinstallClass() { application = new App(sets) }
+console.log(window.location.href, window.location.href.includes("sales/view/id"))
+if (window.location.href.includes("sales/view/id")) {application = new App(sets)}
+
+function trackUrlChanges() {
+    let currentUrl = window.location.href;
+
+    const observer = new MutationObserver(() => {
+        if (currentUrl !== window.location.href) {
+
+            let href = window.location.href
+            if (currentUrl.includes("sales/view/id")) {application.interface.remove()}
+            application = false 
+            if (href.includes("sales/view/id")) {application = new App(sets)}
+            
+        }
+    });
+
+    // Наблюдаем за изменениями в документе
+    observer.observe(document, { childList: true, subtree: true });
+}
+
+// Запускаем отслеживание
+trackUrlChanges();
+
+// Функция для отслеживания изменений URL
+function trackUrlChanges() {
+    let currentUrl = window.location.href;
+
+    // Наблюдение за изменениями в документе
+    const observer = new MutationObserver(() => {
+
+        let href = window.location.href
+
+        if (currentUrl !== href) {
+
+            if (!href.includes("sales/view/id")) {application.interface.remove()} 
+            else {{console.clear(); application = new App(sets)}}
+
+            currentUrl = href
+
+        }
+    });
+
+    observer.observe(document, { childList: true, subtree: true });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    trackUrlChanges();
+});
