@@ -6,8 +6,6 @@ class CopyConnect {
 
     async run(args) {
 
-        let FU_NAME = "run"
-
 
         this.traffic  = args["traffic"]
         this.comment  = args["comment"]
@@ -19,8 +17,10 @@ class CopyConnect {
         this.all_tables_sorted = args["tables"]
         this.interface         = args["interface"]
         this.analis            = args["analis"]
+        this.pt               = this.analis.pt
 
         this.money = this.analis.money_object
+        console.log(this.money)
         this.return_obj = this.analis.copy_massive
 
         this.temp = args["templates"]
@@ -38,6 +38,8 @@ class CopyConnect {
         
         this.type = this.analis.type_of_page[0]
         this.vp   = this.analis.vp
+
+        console.log(this.vp)
         let bill_url = this.analis.type_of_page_object.vars["return_link"]
 
 
@@ -125,33 +127,35 @@ class CopyConnect {
 
         if (!this.not_allow) {
 
-            if (this.checked(this.checksButtons[1]) & this.type == "buyer") { this.vp[17] = 1
-                if (this.checked(this.checksButtons[2]) & this.type == "buyer") { this.vp[17] = 0
-                } else { this.vp[17] = 1 }
-            } else {this.vp[17] = -1}
+            if (this.checked(this.checksButtons[1]) & this.type == "buyer") { this.vp[this.pt["dc"]] = 1
+                if (this.checked(this.checksButtons[2]) & this.type == "buyer") { this.vp[this.pt["dc"]] = 0
+                } else { this.vp[this.pt["dc"]] = 1 }
+            } else {this.vp[this.pt["dc"]] = -1}
 
             if (this.analis.refuse_count) {
                 if (this.checked(this.checksButtons[2]) & this.type == "buyer") {
-                    if (!!((this.vp[3] == 1) & (this.vp[this.all_list[this.traffic]] == 1))) {
-                        this.vp[this.all_list[this.traffic]] = 0; this.vp[3] = 0;
-                        if (this.vp[17] != -1) {this.vp[17] = 0}
-                        if ((this.vp[27] != -1) & (this.vp[27] == 1)) {this.vp[27] = 0}
+                    if (!!((this.vp[this.pt["enter"]] == 1) & (this.vp[this.all_list[this.traffic]] == 1))) {
+                        this.vp[this.all_list[this.traffic]] = 0; this.vp[this.pt["enter"]] = 0;
+                        if (this.vp[this.pt["dc"]] != -1) {this.vp[this.pt["dc"]] = 0}
+                        if ((this.vp[this.pt["buys"]] != -1) & (this.vp[this.pt["buys"]] == 1)) {this.vp[this.pt["buys"]] = 0}
                     };
                 
                 } else if (!this.checked(this.checksButtons[2]) & this.type == "buyer") {
-                    if (!!((this.vp[3] == 0) & (this.vp[this.all_list[this.traffic]] == 0))) {
-                        this.vp[this.all_list[this.traffic]] = 1; this.vp[3] = 1;
-                        if (this.vp[17] != -1) {this.vp[17] = 1}
-                        if (this.vp[27] != -1 & (this.vp[27] == 0)) {this.vp[27] = 1}
+                    if (!!((this.vp[this.pt["enter"]] == 0) & (this.vp[this.all_list[this.traffic]] == 0))) {
+                        this.vp[this.all_list[this.traffic]] = 1; this.vp[this.pt["enter"]] = 1;
+                        if (this.vp[this.pt["dc"]] != -1) {this.vp[this.pt["dc"]] = 1}
+                        if (this.vp[this.pt["buys"]] != -1 & (this.vp[this.pt["buys"]] == 0)) {this.vp[this.pt["buys"]] = 1}
                     };
                 }
             }
 
             if (Object.keys(this.money).length == 3) {
 
-                let num_object = {31: false, 32: true}
+                let num_object = {}
+                num_object[this.pt["money"][0][1]] = false
+                num_object[this.pt["money"][0][2]] = true
                 let num = Object.keys(num_object)
-
+                console.log(this.money, num_object)
                 num.map(e => {
                     if (this.money[e][0] == "-1" & this.checked(this.checksButtons[0]) == num_object[e]) {
                         let another = num[(e == num[0]) ? 1:0]
@@ -165,6 +169,8 @@ class CopyConnect {
             let check_cut = this.checked(this.checksButtons[3])
             let check_cut_number    = (check_cut == true) ? 1:0
 
+            console.log(this.money)
+
             if (this.return_obj[0] != false) {
                 if      (this.return_obj[0].type[0] == "mobile") {for (let i in this.money) {let it = this.money[i][check_cut_number]; this.vp[i] = (it == "-1") ? "":"-" + it}} 
                 else if (this.return_obj[0].type[0] == "buyer") {for (let i in this.money) {this.vp[i] = this.money[i][check_cut_number]}}
@@ -177,6 +183,7 @@ class CopyConnect {
     key(k) {return(this.key_buffer.includes(k))}
 
     clipText(msg, hot=false) {
+        console.log(msg)
         if (this.checks(true)[0] == true) {
 
             navigator.clipboard.writeText(this.format_uv(msg))
