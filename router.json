@@ -4,6 +4,6 @@
     "backend/anal.js", 
     "backend/copy.js", 
     "maps/no_client.js", 
-    "app.js"
+    "app.js", "monitor.js"
   ]
 }
