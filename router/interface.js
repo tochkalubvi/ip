@@ -1,13 +1,19 @@
+// КЛАСС ИНТЕРФЕЙСА, САМЫЙ ЛАЙТОВЫЙ КЛАСС
+// ПРОСТОР ДЛЯ ФАНТИАЗИИ
 class Interface {
 
     async run(html) {
-      this.html = html
 
+        // СОДЕРЖИМОЕ СТРАНИЦЫ ДЛЯ РЕДАКТИРОВАНИЯ
+        this.html = html
+
+        // ЦВЕТА ПРИЛОЖЕНИЯ
         const text_color = "#616161"
         const background_color = "white"
         const border_color = "#b3b1b1"
         const border_second_color = "#0088cc"
 
+        // СТИЛИ ПРИЛОЖЕНИЯ
         const styles = {
             appwrapper: {
                 height: "8vh",
@@ -41,10 +47,12 @@ class Interface {
             }
           }
 
+          // СОЗДАНИЕ СКЕЛЕТА ПРИЛОЖЕНИЯ
           let wrapper = document.createElement("div")
           wrapper.classList.add("wrapper")
           Object.assign(wrapper.style, styles["appwrapper"])
 
+          // НАСТРОЙКИ КНОПОК ПРИЛОЖЕНИЯ
           const bst = {
             "app_icon": [`ฅ^•⩊•^ฅ`, {
               fontWeight: "100",
@@ -63,6 +71,7 @@ class Interface {
 
           let buttons_list = {}
 
+          // ПООЧЕРЕДНАЯ ПОДГРУЗКА КНОПОК
           for (let btn in bst) {
             let cls = btn
             let inner = bst[btn][0]
@@ -74,6 +83,7 @@ class Interface {
             buttons_list[cls] = elem    
           }
 
+          // СПИСКИ ПРИЛОЖЕНИЯ С РАЗНЫМ ФУНКЦИОНАЛОМ
           let mass = [buttons_list["app_dc"], buttons_list["app_sbp"], buttons_list["app_dop"], buttons_list["app_cut"]]
           let all = [
              buttons_list["app_icon"],  buttons_list["app_copy_button"], buttons_list["app_dop"], 
@@ -87,7 +97,7 @@ class Interface {
             buttons_list["app_error"], buttons_list["app_telegram"]
          ]  
 
-
+          // ДОБАВЛЕНИЯ ФУНКЦИОНАЛА КНОПКАМ
           buttons_list["app_icon"].classList.add("open")
 
           function toggle_elements(is) {
@@ -161,6 +171,7 @@ class Interface {
 
     remove() {this.wrapper.remove()}
 
+    // ВКЛЮЧЕНИЕ - ОТКЛЮЧЕНИЕ КЛАССА 
     ToggleCheck(el, colors, cls="checked") {
         console.clear()
         el.classList.toggle(cls)
@@ -168,5 +179,6 @@ class Interface {
         else {el.style.borderBottom = "solid 4px" + colors[0]}
     }
 
+    // ПРОВЕРКА КЛАССА
     check(el, cls="checked") {return (el.classList.contains(cls))}
 }
