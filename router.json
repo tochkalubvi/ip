@@ -1,3 +1,9 @@
 {
-  "files": ["main", "anal.js", "copy.js", "no_client.js", "app.js"]
+  "files": [
+    "main", 
+    "backend/anal.js", 
+    "backend/copy.js", 
+    "maps/no_client.js", 
+    "app.js"
+  ]
 }
