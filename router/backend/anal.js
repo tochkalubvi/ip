@@ -248,7 +248,7 @@ class AnalIs {
         // оплата заказа
         } else if (temp[1] === 1) {
 
-            console.log(this.money_object)
+            this.money_object = {}
 
             range(0, 1).forEach(i => {
                 this.vp[mi[i]]    = cash_nocash[0][i]; 
