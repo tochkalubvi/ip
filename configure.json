@@ -2,7 +2,7 @@
   "main": {
     "size": 42
   },
-  "passive_template": {"six": 27, "order": 18, "enter": 3, "nc": 4, "comments": 29, "articles": 32, "buys": 30, "items_count": 31, "money": [[33, 34, 35], [38,39]], "dc": 25, "order_number": 36},
+  "passive_template": {"six": 27, "order": 18, "enter": 3, "nc": 4, "comments": 29, "articles": 32, "buys": 30, "items_count": 31, "money": [[34, 33, 35], [38,39]], "dc": 25, "order_number": 36},
   "default": [{"shift": true, "date": true, "time": true, "name": true}, {"shift": 0,   "date": 1,   "time": 2,  "name": 37}, [4, 1, 5, 3]],
   "selectors": {
     "tables": {
@@ -11,7 +11,7 @@
         "sale": "#yw2", 
         "item": "#receipt-items table.items.table tbody tr",
 	"coun": "div#receipt-items div.summary",
-	"money": [30, 31, 32]
+	"money": [34, 33, 35]
     }
   },
   "stop": 
