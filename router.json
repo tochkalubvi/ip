@@ -1,3 +1,15 @@
 {
-  "files": ["variables.js", "interface.js", "time.js", "type.js", "tables.js"]
+  "files": [
+    "variables.js", 
+    "interface.js", 
+    "time.js",
+    "type.js", 
+    
+    "tables/tables.js",
+    "tables/base.js", 
+    "tables/money.js", 
+    "tables/items.js", 
+    "tables/comment.js"
+
+  ]
 }
