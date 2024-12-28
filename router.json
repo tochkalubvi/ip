@@ -5,5 +5,5 @@
     "backend/copy.js", 
     "maps/no_client.js", 
     "app.js", "monitor.js"
-  ]
+  ], "main": "inject.js"
 }
