@@ -20,7 +20,8 @@
         "mone": "table#price-detail-view", 
         "sale": "#yw2", 
         "item": "#receipt-items table.items.table tbody tr",
-	"coun": "div#receipt-items div.summary"
+	"coun": "div#receipt-items div.summary",
+	"money": [34, 33, 35]
     }
   },
 "enames": {
