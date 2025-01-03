@@ -115,6 +115,7 @@ class AnalIs {
             if ((temp[4] == 1) & !(["Не задан", ""].includes(comment))) {desc.push(comment)}
             // ПРОВЕРКА НА МАРКЕТПЛЕЙС
             if (this.type_of_page[0] == "market" || this.type_of_page[0] == "mobile") {
+                cobj["courierComment"] = cobj["courierComment"] ? cobj["courierComment"] : ""
                 this.vp[this.pt["comments"]]     =  cobj["carrierType"].filter(item => typeof item === 'string').map(item => `[${item}]`).join('') + " " + cobj["courierComment"]
                 this.vp[this.pt["order_number"]] = cobj["orderNumber"].join(" ");
                 this.vp[this.pt["articles"]]  =  arts.join(";  ") 
