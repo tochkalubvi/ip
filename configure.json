@@ -28,12 +28,12 @@
    "0KbQsNC+INCnLg==": "0KbQsNC+INCn0LbRjdC90Ywt0KXQsNC+" 
 }, 
 "points": {
-    "Вернадка":      true,
-    "Красногорск":  false,
-    "Ленинградка":  false,
-    "Марьино":      false,
-    "Перово":       false,
-    "Покровка 23":  false
+    "Автозаводская":      		false,
+    "Белорусская":  			false,
+    "Боровское":  			false,
+    "Бульвар Дмитрия Донского":      	false,
+    "Тульская":          		true,
+    "Химки Мельникова":  		false
 },
 
   "details": {
