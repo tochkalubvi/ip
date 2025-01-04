@@ -13,7 +13,6 @@ class CopyConnect {
         this.analis            = args["analis"]
         this.pt               = this.analis.pt
         this.money = this.analis.money_object
-        console.log(this.money)
         this.return_obj = this.analis.copy_massive
         this.temp = args["templates"]
         this.cat = this.temp["icons"]
@@ -26,7 +25,6 @@ class CopyConnect {
         this.hot_keys()
         this.type = this.analis.type_of_page[0]
         this.vp   = this.analis.vp
-        console.log(this.vp)
         let bill_url = this.analis.type_of_page_object.vars["return_link"]
         this.connect_click()
         let need = this.temp["need"]
@@ -111,13 +109,12 @@ class CopyConnect {
             }
             if (Object.keys(this.money).length == 3) {
                 let num_object = {}
-                console.log(this.pt["money"])
                 num_object[this.pt["money"]["pay"][this.type][0][1]] = false
                 num_object[this.pt["money"]["pay"][this.type][0][2]] = true
                 let num = Object.keys(num_object)
-                console.log(this.money, num_object, this.pt["money"]["pay"][this.type])
+                
                 num.map(e => {
-                    console.log(this.money[e], e)
+                    
                     if (this.money[e][0] == "-1" & this.checked(this.checksButtons[0]) == num_object[e]) {
                         let another = num[(e == num[0]) ? 1:0]
                         this.money[e] = this.money[another]
@@ -127,7 +124,7 @@ class CopyConnect {
             }
             let check_cut = this.checked(this.checksButtons[3])
             let check_cut_number    = (check_cut == true) ? 1:0
-            console.log(this.money)
+            
             if (this.return_obj[0] != false) {
                 if      (this.return_obj[0].type[0] == "mobile") {for (let i in this.money) {let it = this.money[i][check_cut_number]; this.vp[i] = (it == "-1") ? "":"-" + it}} 
                 else if (this.return_obj[0].type[0] == "buyer") {for (let i in this.money) {this.vp[i] = this.money[i][check_cut_number]}}
@@ -137,7 +134,7 @@ class CopyConnect {
     } 
     key(k) {return(this.key_buffer.includes(k))}
     clipText(msg, hot=false) {
-        console.log(msg)
+        
         if (this.checks(true)[0] == true) {
             navigator.clipboard.writeText(this.format_uv(msg))
                 .then(() => {console.log(`Успешно скопировано в буфер обмена! (Alt+S)`)})
