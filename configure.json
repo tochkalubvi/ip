@@ -22,16 +22,23 @@
 	"money": [30, 31, 32]
     }
   },
+	
 "enames": {
    "0KbQsNC+INCnLg==": "0KbQsNC+INCn0LbRjdC90Ywt0KXQsNC+" 
 }, 
+	
 "points": {
-    "Вернадка":      true,
-    "Красногорск":  false,
-    "Ленинградка":  false,
-    "Марьино":      false,
-    "Перово":       false,
-    "Покровка 23":  false
+	
+    "Кунцевская":      		true,
+    "Фрунзенская":  		false,
+    "Цветной Бульвар":  	false,
+    "Бутырская":      		true,
+    "Первомайская 52":       	false,
+    "Орехово":  		false,
+    "Славянский бульвар":  	false,
+    "Митино":  			true,
+    "Коньково":  		false
+
 },
 
   "details": {
