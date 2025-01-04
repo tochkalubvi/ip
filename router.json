@@ -1,16 +1,8 @@
 {
   "files": [
-    "variables.js", 
-    "interface.js", 
-    "no_client.js",
-    "time.js",
-    "type.js", 
-    
-    "tables/tables.js",
-    "tables/base.js", 
-    "tables/money.js", 
-    "tables/items.js", 
-    "tables/comment.js"
-
-  ]
+    "main", 
+    "backend/anal.js", 
+    "backend/copy.js", 
+    "app.js", "monitor.js"
+  ], "main": "inject.js"
 }
