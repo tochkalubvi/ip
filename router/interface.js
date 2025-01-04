@@ -65,9 +65,8 @@ class Interface {
             "app_dc": ["Дк</br>Alt+Q", {}],
             "app_no_client": ["Не клиент", {}],
             "app_cut": ["Убрать копейки", {}],
-            "app_telegram": ["Новости", {}],
-            "app_error": ["Отчет об ошибке", {}]
-          }
+            "app_telegram": ["Новости", {}]
+          } // "app_error": ["Отчет об ошибке", {}]
 
           let buttons_list = {}
 
@@ -87,14 +86,12 @@ class Interface {
           let mass = [buttons_list["app_dc"], buttons_list["app_sbp"], buttons_list["app_dop"], buttons_list["app_cut"]]
           let all = [
              buttons_list["app_icon"],  buttons_list["app_copy_button"], buttons_list["app_dop"], 
-             buttons_list["app_sbp"], buttons_list["app_dc"], buttons_list["app_cut"], buttons_list["app_no_client"], 
-             buttons_list["app_error"], buttons_list["app_telegram"]
+             buttons_list["app_sbp"], buttons_list["app_dc"], buttons_list["app_cut"], buttons_list["app_no_client"], buttons_list["app_telegram"]
           ]  
 
           let disp_el = [
             buttons_list["app_copy_button"], buttons_list["app_dop"], 
-            buttons_list["app_sbp"], buttons_list["app_dc"], buttons_list["app_cut"], buttons_list["app_no_client"],  
-            buttons_list["app_error"], buttons_list["app_telegram"]
+            buttons_list["app_sbp"], buttons_list["app_dc"], buttons_list["app_cut"], buttons_list["app_no_client"],  buttons_list["app_telegram"]
          ]  
 
           // ДОБАВЛЕНИЯ ФУНКЦИОНАЛА КНОПКАМ
