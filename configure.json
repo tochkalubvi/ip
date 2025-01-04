@@ -3,10 +3,10 @@
     "size": 42
   },
 	
-  "passive_template": {"no_client": 4, "six": 27, "order": 18, "enter": 3, "nc": 4, "comments": 29, "articles": 32, "buys": 30, "items_count": 31, "dc": 25, "order_number": 36, "money":{
-	  "pay":{"open": false, "empty": false, "no_item": false, "client_order": [[33,34,35],1], "buyer":[[33,34,35],1],"mobile":[[38,39],1],"market":false},
-	  "return":{"open": false, "empty": false, "no_item": false, "client_order": [[33,34,35],1], "buyer":[[40,41],1],"mobile":[[40,41],-1],"market":false}
-  }},	"default": [{"shift": true, "date": true, "time": true, "name": true}, {"shift": 0,   "date": 1,   "time": 2,  "name": 37}, [4, 1, 5, 3]],
+  "passive_template": {"no_client": 4, "six": 24, "order": 26, "enter": 3, "nc": 4, "comments": 31, "articles": 34, "buys": 32, "items_count": 33, "dc": 21, "order_number": 39, "money":{
+	  "pay":{"open": false, "empty": false, "no_item": false, "client_order": [[35,36,37],1], "buyer":[[35,36,37],1],"mobile":[[43,44],1],"market":false},
+	  "return":{"open": false, "empty": false, "no_item": false, "client_order": [[33,34,35],1], "buyer":[[41,42],1],"mobile":[[43,44],-1],"market":false}
+  }},	  "default": [{"shift": true, "date": true, "time": true, "name": true}, {"shift": 0,   "date": 1,   "time": 2,  "name": 40}, [4, 1, 5, 3]],
 	
   "stop": [ 
     "0", "26702", "47586", "47586", "26795", "47650", "48263", "47660", "48568", "48568", "48457", "48567", "48263", "48261",
@@ -66,28 +66,27 @@
           "":                  -1,
           "Не задан":          -1, 
           "Сайт":              5, 
-          "Вывеска-пеш":       6, 
-          "Вывески-очень":     6,
+          "Вывеска-пеш":       6,
           "Вывеска-авто":      7, 
           "Постоянный":        8, 
-          "Соседи":            10, 
-          "СМИ":               11, 
-          "Партнеры":          9, 
+          "Соседи":            9, 
+          "СМИ":               10, 
+          "Партнеры":          11, 
           "Яндекс":            13, 
           "Гугл":              12, 
           "2ГИЗ":              14, 
           "По рекомендации":   15, 
-          "Прочее":            16
+          "Прочее":            18
       }],
     "market" : [[["default"],  [0, -1, -1, -1],  [1],   [0, -1, 1, -1, 1],    [false]], [1, false], {
-        "Яндекс Маркет": 21, 
-        "Яндекс Еда (Деливери)": 23, 
-        "ОЗОН": 22, 
-        "Сбер": 24
+        "Яндекс Маркет": 29, 
+        "Яндекс Еда (Деливери)": 29, 
+        "ОЗОН": 30, 
+        "Сбер": 30
     }],
     
-    "mobile" : [[["default"],   [0, 0, -1, -1],   [1],   [0, -1, 1, 1, 1],     [-1, 1, -1]], [1, false], {"Приложение": 19, "Сайт Страсть": 19}],
-    "takeup" : [[["default"],   [0, 0, -1, -1],   [1],   [0, 1, 1, 1, 1],      [-1, 1, -1]], [1, false], {"Самовывоз" : 20}]
+    "mobile" : [[["default"],   [0, 0, -1, -1],   [1],   [0, -1, 1, 1, 1],     [-1, 1, -1]], [1, false], {"Приложение": 27, "Сайт Страсть": 27}],
+    "takeup" : [[["default"],   [0, 0, -1, -1],   [1],   [0, 1, 1, 1, 1],      [-1, 1, -1]], [1, false], {"Самовывоз" : 28}]
     },
   "order": ["market", "shop", "takeup"],
   "no_buyer" : ["empty", "open", "client_order", "no_item", "return"],
