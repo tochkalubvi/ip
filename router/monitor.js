@@ -22,7 +22,6 @@ class Monitor {
         // СВЕРКА ССЫЛКИ САЙТА С ШАБЛОНАМИ
         this.url_template.forEach(urlt => {
             // ЕСЛИ ССЫЛКА С ШАБЛОНОМ СОВПАДАЕТ РЕЗУЛЬТАТ ПОЛОЖИТЕЛЬНЫЙ
-            console.log(this.current, urlt)
             if (this.current.includes(urlt)) {result = true}
         }); return result;
     }
@@ -43,9 +42,9 @@ class Monitor {
             if (this.current !== window.location.href) {
                 
                 // ОБНУЛЯЕМ ИНТЕРФЕЙС И ПО НОВОЙ ЗАПУСКАЕМ ПОДГРУЖЕННЫЙ КЛАСС ЕСЛИ СТРАНИЦА ДРУГОГО ЧЕКА
-                if (this.url_check()) {this.app.interface.remove(); console.log("delete")}
+                if (this.url_check()) {this.app.interface.remove();}
                 this.current = window.location.href; this.app = false; 
-                if (this.url_check()) {this.app = new App(sets); console.log("new")} 
+                if (this.url_check()) {this.app = new App(sets);} 
 
             }
         })}
