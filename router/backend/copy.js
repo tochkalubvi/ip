@@ -30,6 +30,7 @@ class CopyConnect {
         let need = this.temp["need"]
         this.need_traffic =  (!need["traffic"].includes(this.type)  &  this.deny.includes(this.traffic)) 
         this.need_comment =  (need["comment"].includes(this.type)   &  this.deny.includes(this.comment))
+        this.need_orderNu =  (need["orderNumber"].includes(this.type) & this.comment.orderNumber.length < 1)
         this.need_reasons =  (need["reasons"].includes(this.type)   &  this.deny.includes(this.reasons)) 
         this.need_returns = false
         if (this.return_obj[0] != false) {
@@ -40,14 +41,15 @@ class CopyConnect {
             let type = this.return_obj[0].type[0]
             let need_traffic =  (!need["traffic"].includes(type)  &  this.deny.includes(traffic)) 
             let need_comment =  (need["comment"].includes(type)   &  this.deny.includes(comment))
+            let need_orderNu =  (need["orderNumber"].includes(type) & comment.orderNumber.length < 1)
             let need_reasons =  (need["reasons"].includes(type)   &  this.deny.includes(reasons)) 
-            this.need_returns = (need_reasons || need_comment || need_traffic)
+            this.need_returns = (need_reasons || need_comment || need_orderNu || need_traffic)
             if (this.need_returns) {
                 let result = confirm("Исходный чек не корректен!\nПерейти к проблемному чеку?");
                 if (result) {window.location.replace(bill_url)} 
             }
         }
-        this.not_allow = (this.need_reasons || this.need_comment || this.need_traffic || this.need_returns)
+        this.not_allow = (this.need_reasons || this.need_comment || this.need_orderNu || this.need_traffic || this.need_returns)
         if (this.not_allow) {this.cat_button.innerHTML = this.cat[1]} else {
             this.cat_button.innerHTML = this.cat[0][0]
             this.cat_button.addEventListener("mouseover", () => {
