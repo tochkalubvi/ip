@@ -129,28 +129,6 @@ class Interface {
           document.body.appendChild(wrapper)
           this.wrapper = wrapper
 
-          buttons_list["app_error"].addEventListener("mouseover", ()=> {
-            buttons_list["app_error"].style.color = border_second_color
-          })
-
-          buttons_list["app_error"].addEventListener("mouseout", ()=> {
-            buttons_list["app_error"].style.color = text_color
-          })
-
-          buttons_list["app_error"].addEventListener("click", ()=> {
-            let result = confirm("Нашли ошибку? Составим отчет об ошибке?");
-            if (result) {
-              let problem = prompt("Опишите проблему");
-              result = confirm("Отправить отчет?");
-              if (result != false) {
-                let shop = document.querySelector(".detail-view.table tr:nth-child(1) td").innerText
-                let seller = document.querySelector(".user-info").innerText.replace('"', '').trim()
-                sendMessage(`Магазин: ${shop}\nПродавец: ${seller}\nПроблема: ${problem}\nСсылка: ${window.location.href}`)
-                alert("Спасибо за уделенное время! Приятного использования!");
-              } 
-            }
-          })
-
           buttons_list["app_telegram"].addEventListener("click", ()=> {
             window.open('https://t.me/+WBv4WSieLmwwMjZi');
           })
