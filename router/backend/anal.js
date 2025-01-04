@@ -62,8 +62,6 @@ class AnalIs {
         let seller_hash = btoa(unescape(encodeURIComponent(seller)))
         if (Object.keys((this.cfg["enames"])).includes(seller_hash)) seller = decodeURIComponent(escape(atob(this.cfg["enames"][seller_hash])))
         if (this.def[0]["name"]) {this.vp[this.def[1]["name"]] = seller} // имя продавца
-        console.log(this.def[1]["name"], seller)
-        console.log(this.vp)
     }
     standart(temp, otemp) {
         if (!this.uv_turn) {this.vp[this.all_list[this.traffic]]                             =  temp[1]} // ув (5 - 16)
@@ -173,11 +171,7 @@ class AnalIs {
         let cash_nocash_sbp = cnc[0]
         
         let if_money = (this.pt["money"]["pay"][this.type_of_page[0]] && this.pt["money"]["return"][this.type_of_page[0]])
-        console.log(if_money)
-        let t_m = {}
-        let mi = false
-        let mmp = false
-        console.log(this.return_type)
+        let t_m = {}; let mi = false; let mmp = false
         if (this.return_type != false) {
 
             mi  = this.pt["money"]["pay"][this.return_type.type[0]][0]
@@ -201,11 +195,9 @@ class AnalIs {
 
         t_m[mmp[0]] = ['-1', '-1']
         t_m[mmp[1]] = ['-1', '-1']
-        console.log(t_m)
 
         
         this.money_object = ((temp.length == 1) & (temp[0] == -1)) ?  t_m: false
-        console.log(temp, this.money_object)
 
         // обычная оплата 
         if (temp[0] === 1 & !this.money_object) {
@@ -223,7 +215,6 @@ class AnalIs {
             });
         // возврат заказа
         } else if (this.return_type != false & (temp[2] === 1)) {
-            console.log(mi, cash_nocash, cnc, mi, this.return_type.type[0])
             if (this.return_type.type[0] != false) {
                 this.money_object = {}
                 if (this.return_type.type[0] == "mobile") {
