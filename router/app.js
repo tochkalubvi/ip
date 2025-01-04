@@ -7,10 +7,12 @@ let sets = {
 class App {
     // НАЧАЛЬНЫЕ ЗНАЧЕНИЯ ПРИЛОЖЕНИЯ
     constructor(args) {
+        console.groupCollapsed("Class App")
         console.log("ИП КАРАСЕВА");
         // ПЕРЕМЕННАЯ С НАСТРОЙКАМИ; ПЕРЕМЕННАЯ С ПРЕДВАРИТЕЛЬНЫМ СОДЕРЖИМЫМ СТРАНИЦЫ;  КЛЮЧ ЗАПУСКА;
         this.config = args["config"]; this.html = document.body; this.start_key = args["start_key"];
         this.main();
+        console.groupEnd()
     }
     // ФУНКЦИЯ ПОЛУЧЕНИЯ КОНФИГА ОПРЕДЕЛЕННОГО ИП 
     async get_file(salt, type=true) {
