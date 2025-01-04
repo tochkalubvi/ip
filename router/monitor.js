@@ -41,14 +41,12 @@ class Monitor {
 
             // ЕСЛИ НОВАЯ СТРАНИЦА НЕ СОВПАДАЕТ С СТАРОЙ
             if (this.current !== window.location.href) {
-                console.groupCollapsed("AppCreated")
                 
                 // ОБНУЛЯЕМ ИНТЕРФЕЙС И ПО НОВОЙ ЗАПУСКАЕМ ПОДГРУЖЕННЫЙ КЛАСС ЕСЛИ СТРАНИЦА ДРУГОГО ЧЕКА
                 if (this.url_check()) {this.app.interface.remove(); console.log("delete")}
                 this.current = window.location.href; this.app = false; 
                 if (this.url_check()) {this.app = new App(sets); console.log("new")} 
 
-                console.groupEnd()
             }
         })}
 
