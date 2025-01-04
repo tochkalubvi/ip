@@ -80,8 +80,8 @@ class App {
         this.all_tables_sorted = [this.tables[0], this.tables[1], this.tables[2]]
         console.log(this.all_tables_sorted)
         // КЛАСС НЕКЛИЕНТА ПИШЕТСЯ ПОД КАЖДОЕ ИП ОТДЕЛЬНО ЯВЛЯЕТСЯ СИЛЬНОЙ И НЕЗАВИСИМОЙ ФУНКЦИЕЙ
-        // let nc = new no_client({"config": this.cfg, "table": this.all_tables_sorted})
-        // await nc.connect(this.buttons[3])
+        let nc = new no_client({"config": this.cfg, "table": this.all_tables_sorted})
+        await nc.connect(this.buttons[3])
         // ВВОД ОСНОВНЫХ ДЕЙСТВУЮЩИХ ПЕРЕМЕННЫХ
         this.traffic  = this.all_tables_sorted[0]["traffic"]
         this.comment  = this.all_tables_sorted[0]["comment"]
