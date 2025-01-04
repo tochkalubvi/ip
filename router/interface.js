@@ -133,7 +133,7 @@ class Interface {
             window.open('https://t.me/+WBv4WSieLmwwMjZi');
           })
           
-          let second_mass = ["app_copy_button", "app_telegram", "app_error", "app_no_client"].map(i => {return buttons_list[i]})
+          let second_mass = ["app_copy_button", "app_telegram", "app_no_client"].map(i => {return buttons_list[i]})
           let move = [["mouseover", border_second_color], ["mouseout",  text_color]]
           move.forEach(el => {second_mass.forEach((e) => {e.addEventListener(el[0], () => {e.style.color = el[1]})});})
 
