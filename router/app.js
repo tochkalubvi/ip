@@ -16,6 +16,7 @@ class App {
     }
     // ФУНКЦИЯ ПОЛУЧЕНИЯ КОНФИГА ОПРЕДЕЛЕННОГО ИП 
     async get_file(salt, type=true) {
+        console.groupCollapsed("App -> Getfile()")
         // ОТПРАВКА ЗАПРОСА НА ПОЛУЧЕНИЕ
         let response  = await fetch(window.atob(this.start_key) + salt);
         // ЕСЛИ ЗАПРОС ПОЛУЧЕН
@@ -23,11 +24,13 @@ class App {
             // В ЗАВИСИМОСТИ ОТ ОЖИДАЕМОГО ТИПА ФАЙЛА ФОРМАТИРУЕМ ЕГО ПО ПОДОБИЮ БОЖЬЕМУ
             if (type) {return await response.json()} else {return await response.text()}
         } else {console.debug("Ошибка HTTP: " + response.status)}
+        console.groupEnd()
     }
     // КОСТЫЛЬ ДЛЯ УПРОЩЕНИЯ КОДА И ЕГО ОБЛЕГЧЕНИЯ
     t(type_of_page) {return this.cfg["type_settings"][type_of_page][2]}
     // ПОЛУЧЕНИЕ СОДЕРЖИМОГО СТРАНИЦЫ
     async get_html() {
+        console.groupCollapsed("App -> get_html()")
         let html = document.body // ПОЛУЧЕНИЕ ПРЕДВОРИТЕЛЬНОГО РЕЗУЛЬТАТА
         // ФУНКЦИЯ ПОЛУЧЕНИЯ СОДЕРЖИМОГО ПОСЛЕ ПОДГРУЗКИ ЕЛЕМЕНТА ПО СЕЛЕКТОРУ
         async function waitForIframeAndElement(selector) {
@@ -51,11 +54,13 @@ class App {
             });
         }
         if (window.location.href.includes("cpanel")) {html = await waitForIframeAndElement("#yw0")} // ПРОВЕРКА СТАРОЙ ВЕРСИИ САЙТА (НЕАКТУАЛЬНО)
+        console.groupEnd()
         return html // ВОЗВРАЩАЕМ СОДЕРЖИМОЕ СТРАНИЦЫ
     }
     // ГЛАВНАЯ ФУНКЦИЯ ВХОД В ПРОГРАММУ
     async main() {
         // ПОЛУЧЕНИЕ СОДЕРЖИМОГО СТРАНИЦЫ
+        console.groupCollapsed("App Main")
         this.html = await this.get_html()
         // ПОЛУЧЕНИЕ НАСТРОЕК ОТ ИП
         // this.cfg = await this.get_file("configure.json").catch(err => {console.log("[App.main] GET_CONFIG_ERROR", err)})
@@ -122,5 +127,7 @@ class App {
             deny:              this.deny,
             templates:         this.templates
         })
+
+        console.groupEnd()
     }
 }
