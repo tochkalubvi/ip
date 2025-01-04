@@ -61,7 +61,7 @@ class App {
         this.templates = {
             all_list: Object.assign({}, this.t("buyer"), this.t("market"), this.t("mobile"), this.t("takeup")),
             uv_off: Object.assign({}, this.t("market"), this.t("mobile"), this.t("takeup")),
-            need: {traffic: ["open", "return"], comment: ["market", "mobile", "takeup", "return", "no_item"], reasons: ["no_item"]},
+            need: {orderNumber: ["market", "mobile", "takeup"], traffic: ["open", "return"], comment: ["market", "mobile", "takeup", "return", "no_item"], reasons: ["no_item"]},
             icons: [["ฅ^•⩊•^ฅ", "⎛⎝^>⩊<^⎠⎞"], "≽/ᐠ - ˕ -マ≼"] }
         // СТРОКИ БЕЗ ВЫБРАННОГО ПУНКТА
         this.deny = ["Не задан", ""]
