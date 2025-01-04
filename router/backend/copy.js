@@ -67,9 +67,10 @@ class CopyConnect {
         if (this.location != window.location.href) {
             reinstallClass()
         }
-        let template = {
+    let template = {
             "returns": ["У вас проблемный чек!", [17], this.need_returns, false],
             "traffic": ["Введите трафик!", [19], this.need_traffic, false],
+            "orderNumber": ["В комментарии нет номера заказа!", [21], this.need_orderNu, false],
             "comment": [{return: "Введите комментарий, опишите причину возврата чека!", 
                          market: "Введите комментарий с номером заказа!", 
                          no_item: "Опишите непокупку (обстоятельства, причина)"
