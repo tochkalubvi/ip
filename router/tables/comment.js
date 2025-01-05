@@ -66,7 +66,7 @@ class Comment {
         // Итерируем по оставшимся словам и находим номер заказа
         for (const word of this.words_massive) {
             // Проверяем, является ли слово числом и длина больше 6
-            if (/^\d+$/.test(word) && word.length > 6) {
+            if (/^\d+$/.test(word) && word.length > 4) {
                 orderNumber.push(word); // Сохраняем номер заказа
                 // Удаляем номер заказа из комментария
                 courierComment = courierComment.replace(word, '').trim();
