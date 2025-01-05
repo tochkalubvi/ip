@@ -50,7 +50,7 @@ class no_client {
             if (def[0]["time"]) {vp[def[1]["time"]] = tm[2]} // время 
             vp[pt["no_client"]] = 0
 
-            let seller = table[0]["seller"].trim().split(" ").filter((e) => !e.includes("-")).join(" ")
+            let seller = table[0]["seller"].trim().split(" ").filter((e) => e != "-.").join(" ")
             let seller_hash = btoa(unescape(encodeURIComponent(seller)))
 
             if (Object.keys((cfg["enames"])).includes(seller_hash)) seller = decodeURIComponent(escape(atob(cfg["enames"][seller_hash])))
