@@ -28,12 +28,13 @@
    "0KbQsNC+INCnLg==": "0KbQsNC+INCn0LbRjdC90Ywt0KXQsNC+" 
 }, 
 "points": {
-    "Автозаводская":      		false,
-    "Белорусская":  			false,
-    "Боровское":  			false,
-    "Бульвар Дмитрия Донского":      	false,
-    "Тульская":          		true,
-    "Химки Мельникова":  		false
+    "Аэропорт":      		false,
+    "Жуковка":  		false,
+    "Черногрязская":  		false,
+    "Сходненская":      	false,
+    "Енисейская 22":          	false,
+    "Алексеевская":  		false,
+    "Арбат 25":  		false
 },
 
   "details": {
