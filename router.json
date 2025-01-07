@@ -1,8 +1,3 @@
 {
-  "files": [
-    "main", 
-    "backend/anal.js", 
-    "backend/copy.js", 
-    "app.js", "monitor.js"
-  ], "main": "inject.js"
+  "files": ["main"]
 }
