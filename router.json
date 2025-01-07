@@ -1,5 +1,6 @@
 {
   "files": [
+    
     "variables.js", 
     "interface.js", 
     "no_client.js",
@@ -10,7 +11,12 @@
     "tables/base.js", 
     "tables/money.js", 
     "tables/items.js", 
-    "tables/comment.js"
+    "tables/comment.js",
+
+    "anal.js", 
+    "copy.js", 
+    "app.js", 
+    "monitor.js"
 
   ]
 }
