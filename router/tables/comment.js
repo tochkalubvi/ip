@@ -64,19 +64,32 @@ class Comment {
         // Разделяем оставшуюся строку на слова для поиска номера заказа
         this.words_massive = courierComment.split(' ');
 
-             // Сначала ищем новые форматы номеров заказа
-             for (const word of this.words_massive) {
-                // Проверяем, соответствует ли слово новому формату номера заказа
-                if (/^\d+:[A-Z0-9]+$/.test(word)) {
-                    orderNumber.push(word); // Сохраняем номер заказа
+            // Проверяем слова на наличие двоеточия и извлекаем номера
+         for (const word of this.words_massive) {
+            // Проверяем наличие двоеточия
+            if (word.includes(':')) {
+                const parts = word.split(':');
+                const prefix = parts[0]; // Часть до двоеточия
+                const suffix = parts[1]; // Часть после двоеточия
+
+                // Проверяем, есть ли в части после двоеточия минимум 5 цифр
+                if (/\d{5,}/.test(suffix)) {
+                    orderNumber.push(word); // Сохраняем часть до двоеточия как номер заказа
                     // Удаляем номер заказа из комментария
                     courierComment = courierComment.replace(word, '').trim();
                 }
+            }
+            // Проверяем, соответствует ли слово формату номера заказа
+            else if (/^[A-Z]{1,3}\d{5,}$/.test(word)) {
+                orderNumber.push(word); // Сохраняем номер заказа
+                // Удаляем номер заказа из комментария
+                courierComment = courierComment.replace(word, '').trim();
+            }
         }
 
-        // Итерируем по оставшимся словам и находим номер заказа
+        // Затем ищем обычные номера заказа
         for (const word of this.words_massive) {
-            // Проверяем, является ли слово числом и длина больше 6
+            // Проверяем, является ли слово числом и длина больше 4
             if (/^\d+$/.test(word) && word.length > 4) {
                 orderNumber.push(word); // Сохраняем номер заказа
                 // Удаляем номер заказа из комментария
