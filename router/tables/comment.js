@@ -1,4 +1,5 @@
-// КЛАСС КОММЕНТАРИЯ ВСЯ ОБРАБОТКА КОММЕНТАРИЯ РАЗБИЕНИЕ ЕГО НА 
+// КЛАСС КОММЕНТАРИЯ ВСЯ ОБРАБОТКА КОММЕНТАРИЯ РАЗБИЕНИЕ ЕГО 
+// НА ПОДПУНКТЫ [ОБНОВЛЕНО 09.01.2025] ИСПРАВЛЕНА ОШИБКА СБЕРЛОГИСТИКИ
 class Comment {
 
     constructor(base) {
@@ -27,7 +28,7 @@ class Comment {
 
     formatComment() {
          // Убираем лишние пробелы, табуляцию и двоеточие
-         return this.comment_raw.replace(/[:\t]+|\s{2,}/g, ' ').trim();                 
+         return this.comment_raw.replace(/[\t]+|\s{2,}/g, ' ').trim();                 
     }
 
     partComment() {
@@ -63,6 +64,16 @@ class Comment {
         // Разделяем оставшуюся строку на слова для поиска номера заказа
         this.words_massive = courierComment.split(' ');
 
+             // Сначала ищем новые форматы номеров заказа
+             for (const word of this.words_massive) {
+                // Проверяем, соответствует ли слово новому формату номера заказа
+                if (/^\d+:[A-Z0-9]+$/.test(word)) {
+                    orderNumber.push(word); // Сохраняем номер заказа
+                    // Удаляем номер заказа из комментария
+                    courierComment = courierComment.replace(word, '').trim();
+                }
+        }
+
         // Итерируем по оставшимся словам и находим номер заказа
         for (const word of this.words_massive) {
             // Проверяем, является ли слово числом и длина больше 6
@@ -75,12 +86,11 @@ class Comment {
 
         // Удаляем лишние пробелы после удаления номера заказа
         courierComment = courierComment.replace(/\s+/g, ' ').trim();
+        orderNumber = orderNumber.map(e => e.replace(/:/g, ' '))
 
         if (orderNumber     == []) {orderNumber     = false}
         if (carrierType     == []) {carrierType     = false}
         if (courierComment  == []) {courierComment  = false}
-
-        // 23820962:39327123651 Курьер Яндекс Маркет Бомба
 
         this.object = {
             full: this.comment_formatted,
