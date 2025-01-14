@@ -5,7 +5,7 @@
 	
   "passive_template": {"no_client": 4, "six": 24, "order": 26, "enter": 3, "nc": 4, "comments": 31, "articles": 34, "buys": 32, "items_count": 33, "dc": 21, "order_number": 39, "money":{
 	  "pay":{"open": false, "empty": false, "no_item": false, "client_order": [[35,36,37],1], "buyer":[[35,36,37],1],"mobile":[[43,44],1],"market":false},
-	  "return":{"open": false, "empty": false, "no_item": false, "client_order": [[33,34,35],1], "buyer":[[41,42],1],"mobile":[[43,44],-1],"market":false}
+	  "return":{"open": false, "empty": false, "no_item": false, "client_order": [[41,42],1], "buyer":[[41,42],1],"mobile":[[43,44],-1],"market":false}
   }},	  "default": [{"shift": true, "date": true, "time": true, "name": true}, {"shift": 0,   "date": 1,   "time": 2,  "name": 40}, [4, 1, 5, 3]],
 	
   "stop": [ 
