@@ -41,7 +41,7 @@ class Comment {
         let courierComment = this.comment_formatted; // Изначально вся строка - это комментарий
 
         // Список возможных служб доставки
-        const deliveryServices = Object.keys(this.all_templates).map(service => service.toLowerCase()); // Приводим к нижнему регистру
+        const deliveryServices = Object.keys(this.all_templates).map(service => service.toLowerCase());
 
         // Ищем тип службы доставки и собираем их в массив
         for (const service of deliveryServices) {
@@ -50,10 +50,8 @@ class Comment {
 
             // Если служба доставки найдена
             while (index !== -1) {
-                carrierType.push(service); // Добавляем службу доставки в массив
-                // Удаляем службу доставки из комментария
+                carrierType.push(service);
                 courierComment = courierComment.slice(0, index) + courierComment.slice(index + service.length);
-                // Ищем следующую службу доставки
                 index = courierComment.toLowerCase().indexOf(serviceLower);
             }
         }
@@ -64,42 +62,50 @@ class Comment {
         // Разделяем оставшуюся строку на слова для поиска номера заказа
         this.words_massive = courierComment.split(' ');
 
-            // Проверяем слова на наличие двоеточия и извлекаем номера
-         for (const word of this.words_massive) {
+        // Проверяем слова на наличие номеров заказов
+        for (const word of this.words_massive) {
             // Проверяем наличие двоеточия
             if (word.includes(':')) {
                 const parts = word.split(':');
-                const prefix = parts[0]; // Часть до двоеточия
                 const suffix = parts[1]; // Часть после двоеточия
-
-                // Проверяем, есть ли в части после двоеточия минимум 5 цифр
+                
                 if (/\d{5,}/.test(suffix)) {
-                    orderNumber.push(word); // Сохраняем часть до двоеточия как номер заказа
-                    // Удаляем номер заказа из комментария
+                    orderNumber.push(word);
                     courierComment = courierComment.replace(word, '').trim();
                 }
             }
-            // Проверяем, соответствует ли слово формату номера заказа
+            // Проверяем новый формат с дефисами (63027148-0387-1)
+            else if (word.includes('-')) {
+                const parts = word.split('-');
+                // Проверяем что:
+                // 1. Есть ровно 2 дефиса
+                // 2. Все части содержат только цифры
+                // 3. Вторая часть от 2 до 6 цифр (можно изменить по требованиям)
+                if (parts.length === 3 && 
+                    parts.every(part => /^\d+$/.test(part)) && 
+                    parts[1].length >= 2 && parts[1].length <= 6) {
+                    
+                    orderNumber.push(word);
+                    courierComment = courierComment.replace(word, '').trim();
+                }
+            }
+            // Проверяем стандартный формат номера заказа (ABC12345)
             else if (/^[A-Z]{1,3}\d{5,}$/.test(word)) {
-                orderNumber.push(word); // Сохраняем номер заказа
-                // Удаляем номер заказа из комментария
+                orderNumber.push(word);
+                courierComment = courierComment.replace(word, '').trim();
+            }
+            // Проверяем числовой формат (только цифры, длина > 4)
+            else if (/^\d+$/.test(word) && word.length > 4) {
+                orderNumber.push(word);
                 courierComment = courierComment.replace(word, '').trim();
             }
         }
 
-        // Затем ищем обычные номера заказа
-        for (const word of this.words_massive) {
-            // Проверяем, является ли слово числом и длина больше 4
-            if (/^\d+$/.test(word) && word.length > 4) {
-                orderNumber.push(word); // Сохраняем номер заказа
-                // Удаляем номер заказа из комментария
-                courierComment = courierComment.replace(word, '').trim();
-            }
-        }
-
-        // Удаляем лишние пробелы после удаления номера заказа
+        // Удаляем лишние пробелы после удаления номеров заказов
         courierComment = courierComment.replace(/\s+/g, ' ').trim();
-        orderNumber = orderNumber.map(e => e.replace(/:/g, ' '))
+
+        // Очищаем номера заказов от двоеточий (если были)
+        orderNumber = orderNumber.map(e => e.replace(/:/g, ' ').trim());
 
         if (orderNumber     == []) {orderNumber     = false}
         if (carrierType     == []) {carrierType     = false}
