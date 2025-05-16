@@ -1,1 +1,3 @@
-{"files": ["main"]}
+{
+  "files": ["interface", "no_client", "vptime", "type", "tables", "base", "money", "item", "items", "comment", "analys", "copcon", "app", "monitor"]
+}
